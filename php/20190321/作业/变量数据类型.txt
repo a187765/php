@@ -1,0 +1,92 @@
+变量、数据类型
+
+1）$name = "变量名为 $name";  对
+$_name = "变量名为 $_name";   对
+$abc123 = "变量名为 $abc123";  对
+$123abc = "变量名为 $123abc";  错
+$my_name = "变量名为 $my_name";  对
+$my name = "变量名为 $my name";  错
+$myName = "变量名为 $myName";  对
+$my$name = "变量名为 $my$name";  对
+$my*name = "变量名为 $my*name";  错
+$while = "变量名为关键字while命名的";  错
+
+以上那些变量命名是错误的？
+
+2）$name,$Name,$NAME 请问这三个变量名是否一样？
+	不一样
+
+4）常量
+定义一个常量，名字为 ABC，值为 “hello world”?
+  define("ABC","hello world");
+
+
+5） $str = "world";
+echo 'hello $str'; 请问能输出 hello world吗？如果不对，正确做法是？
+	echo "hello $str";
+
+6）$a = "hello";
+echo "$aworld";
+
+请问结果是：helloworld 的吗？如果不是，怎么修改，得到 helloworld
+	echo "{$a}world";
+
+7）$a = "hello";
+$$a = "world";=>$hello="world";
+请输出 hello world?(两种方法哦！)
+	echo $a;
+	echo ${$a};
+	echo $hello;
+
+
+8）$a = "hello";
+$b = &$a;
+问题1：请问$b的值是？
+	hello
+
+unset($b);
+问题2:请问$a的值是?  
+	hello
+
+
+9）$str1 = 'hello \n world';
+$str2 = "hello \n world";
+请问 $str1 和 $str2 这两个变量的值是否一样？(请分析思路，检查是老师询问？)
+
+	不一样   单引号没有转义，双引号有转义
+
+10）使用定界符语法 "<<<"输出：
+“在PHP定界符中的任何特殊字符 都不需要转义
+PHP定界符中的PHP变量会被正常的用其值来替换
+使用定界符要注意：
+结束标识符所在的行不能包含任何其它字符，这意味着该标识符不能被缩进，在分号之前
+之后都不能有任何空格或制表符;
+”这一段内容。
+
+	echo <<<A
+	“在PHP定界符中的任何特殊字符 都不需要转义
+PHP定界符中的PHP变量会被正常的用其值来替换
+使用定界符要注意：
+结束标识符所在的行不能包含任何其它字符，这意味着该标识符不能被缩进，在分号之前
+之后都不能有任何空格或制表符;
+”
+A;
+
+11)请写出一下输出的数据类型。
+<?php
+echo gettype("I am what data type?");  string
+echo gettype(123456);                  integer
+echo gettype(3.1454556);               double
+echo gettype(1 > 2);                   boolean
+echo gettype(array(1, 2, 3));          array
+?>
+
+
+12)请写出一下结果是true还是false。
+<?php
+var_dump( is_string("I am what data type?") );  true
+var_dump( is_int(123456) );                     true
+var_dump( is_float(3.1454556) );                true
+var_dump( is_bool(1 > 2) );                     true
+var_dump( is_array(array(1, 2, 3) ) );          true
+?>

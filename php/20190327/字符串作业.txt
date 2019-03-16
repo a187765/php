@@ -1,0 +1,24 @@
+字符串练习
+
+练习1：
+
+用2种以上的方法获取文件的后缀名
+比如，test.abc.jpg获取jpg
+
+练习2：
+
+反转字符串 $a = adfjdlks; 输出skldjfda(至少两种方法)
+
+
+练习3：
+
+输出偶数位的字符串 $a = adfjdlksa; 输出 afdka
+
+练习4：
+
+有一个字符串，把里面的每个字符大写转小写，小写转大写
+$a = 'aFAasdKEa';
+输出AfaASDkeA
+
+
+

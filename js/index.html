@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>js教程</title>
+</head>
+<body>
+    <h1 id="week"></h1>
+    <script>
+        var time = new Date();
+        var week = time.getDay();
+        switch (week) {
+            case 0:
+                week = "天";
+                break;
+            case 1:
+                week = "一";
+                break;
+            case 2:
+                week = "二";
+                break;
+            case 3:
+                week = "三";
+                break;
+            case 4:
+                week = "四";
+                break;
+            case 5:
+                week = "五";
+                break;
+            case 6:
+                week = "六";
+                break;
+            default:
+                break;
+        }
+        document.getElementById("week").innerHTML = "今天：星期"+week;
+    </script>
+</body>
+</html>

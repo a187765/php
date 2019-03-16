@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        ul{
+            list-style:none;
+            padding-left: 0;
+        }
+        ul>li{
+            display: none;
+        }
+        ul li.active{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <ul id="ul">
+            <li class="active"><img src="images/list-1-1.gif" alt=""></li>
+            <li><img src="images/list-1-2.gif" alt=""></li>
+            <li><img src="images/list-1-3.gif" alt=""></li>
+        </ul>
+    </div>
+    <button id="button">切换</button>
+    <input type="text" id="input">
+    <button id="alert">信息框</button>
+    <button id="confirm">确认框</button>
+    <button id="prompt">输入框</button>
+    <button id="create">创建节点</button>
+    <button id="random">随机数</button>
+    <button id="randomstr">随机字符</button>
+    <button id="change">改变属性</button>
+
+    <pre>
+        js三对象
+        1、本地对象  JavaScript 内置对象
+        2、document 对象 dom HTML DOM 对象
+        3、window 对象（browser 浏览器对象 vom） Browser 对象
+        
+        html三元素
+        1、文字
+        2、图片
+        3、代码
+
+        结构
+        1、链状结构
+        2、树状结构
+        3、图状结构（网状结构）
+        4、栈     先进后出，排在后面的先处理；要把后面进去的拿出来才能拿出第一个
+        5、队列   先进先出，排在前面的先处理
+
+        var div = document.createElement("div");//创建节点（标签）
+        document.getElementsByTagName("pre")[0].appendChild(div);//写出节点（标签）
+
+        charAt(Number);//取一个字符 从0开始。 var str = "abcdefghij";console.log(str.charAt(Math.floor(Math.random()*10+1)));
+    </pre>
+
+    <table id="table" border="1">
+
+    </table>
+
+    <table id="phone" border="1">
+
+    </table>
+
+    <table border="1" id="checkbox">
+        <tr>
+            <td>选择</td>
+            <td>标题</td>
+            <td>信息</td>
+            <td>价格</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" name="" id="">
+            </td>
+            <td>iphonr 7</td>
+            <td>苹果7</td>
+            <td>5000</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" name="" id="">
+            </td>
+            <td>iphonr 8</td>
+            <td>苹果8</td>
+            <td>7500</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="checkbox" name="" id="">
+            </td>
+            <td>iphonr Note</td>
+            <td>苹果Note</td>
+            <td>11000</td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <button id="all">全选</button>
+                <button id="cancel">取消</button>
+                <button id="ret">返选</button>
+            </td>
+        </tr>
+    </table>
+
+    <script>
+        // 方法1
+        // document.getElementById("all").onclick = function(){
+        //     set_input_checked(true);
+        // }
+        // document.getElementById("cancel").onclick = function(){
+        //     set_input_checked(false);
+        // }
+        // document.getElementById("ret").onclick = function(){
+        //     set_input_checked();
+        // }
+        // function set_input_checked(bool){
+        //     var input = document.getElementById("checkbox").querySelectorAll("input[type='checkbox']");
+        //     for(var i=0;i<input.length;i++){
+        //         input[i].checked = bool != null ? bool : !input[i].checked;
+        //     }
+        // }
+        // 方法2  属性方法
+        // var input = document.getElementById("checkbox").querySelectorAll("button");
+        // for(var i=0;i<input.length;i++){
+        //     input[i].index = i;//增加索引属性
+        //     input[i].onclick = function(){
+        //         set_input_checked(this.index);
+        //     }
+        // }
+        // function set_input_checked(bool){
+        //     var input = document.getElementById("checkbox").querySelectorAll("input[type='checkbox']");
+        //     for(var i=0;i<input.length;i++){
+        //         input[i].checked = bool ===2 ? !input[i].checked : !bool;
+        //     }
+        // }
+        //方法3 闭包函数1
+        var input = document.getElementById("checkbox").querySelectorAll("button");
+        for(var i=0;i<input.length;i++){
+            input[i].onclick =(function(index){
+                return function(){//收到 i 传来的值后 返回函数（自己）给按钮
+                    console.log(this);
+                    set_input_checked(index);
+                };
+            })(i);//把 i 传给 index
+        }
+        function set_input_checked(bool){
+            var input = document.getElementById("checkbox").querySelectorAll("input[type='checkbox']");
+            for(var i=0;i<input.length;i++){
+                input[i].checked = bool ===2 ? !input[i].checked : !bool;
+            }
+        }
+        //方法4 闭包函数2  跟1是一样的，只是把函数分开来
+        // var input = document.getElementById("checkbox").querySelectorAll("button");
+        // for(var i=0;i<input.length;i++){
+        //     input[i].onclick = checked(i);
+        // }
+        // function checked(i){
+        //     return function(){
+        //         console.log(this);
+        //         set_input_checked(i);//i 相当于（checked函数的）全局变量
+        //     }
+        // }
+        // function set_input_checked(bool){
+        //     var input = document.getElementById("checkbox").querySelectorAll("input[type='checkbox']");
+        //     for(var i=0;i<input.length;i++){
+        //         input[i].checked = bool ===2 ? !input[i].checked : !bool;
+        //     }
+        // }
+
+
+        //遍历数组
+        var arr = [["iphone 7",3000],["iphone x",8000],["iphone Note9",5000]];
+        var html = "<tr><th>产品名称</th><th>产品价格</th><tr>";
+        for(var i=0;i<arr.length;i++){
+            html+="<tr>";
+                for(var j=0;j<arr[i].length;j++){
+                    html+="<td>"+arr[i][j]+"</td>";
+                }
+            html+="</tr>";
+        }
+        document.getElementById("phone").innerHTML = html;
+
+        //数组去重
+        var arr = ["a","s","d","s","a","c","g","d","s","a"];
+        console.log(arr.length,arr);
+        for(var i=0;i<arr.length;i++){
+            for(var j=i+1;j<arr.length;j++){
+                if(arr[i]===arr[j]){
+                    arr.splice(j,1);//splice 删除（替换）数组（删除位置，删除数量，[是否用新值替换]）；push 添加数组
+                    j--;
+                }
+            }
+        }
+        console.log(arr.length,arr,i,j);
+
+        
+        document.getElementById("change").onclick = function(){
+            if(this.style.background == "red"){
+                this.style.background = "";
+            }else{
+                this.style.background = "red";
+            }
+        }
+        document.getElementById("random").onclick = function(){
+            document.getElementById("input").value = Math.floor(Math.random()*10+1);
+        }
+        document.getElementById("randomstr").onclick = function(){
+            var str = "abcdefghij";
+            var rand = Math.floor(Math.random()*10+0);
+            document.getElementById("input").value = rand +"="+ str.charAt(rand);
+        }
+        // parseInt(Math.random()*(max-min+1)+min,10);//10 -1 +1
+
+        var t1 = new Date();
+        console.log(t1.getFullYear(),t1.getMonth()+1,t1.getDate(),t1.getDay());
+
+        var t = new Date(t1.getTime()+1940852206);
+        console.log(t.getFullYear(),t.getMonth()+1,t.getDate(),t.getHours(),t.getMinutes(),t1.getSeconds());
+
+        t.setDate(t.getDate()+35);
+        console.log(t.getFullYear(),t.getMonth()+1,t.getDate(),t.getDay());
+
+        document.getElementById("alert").onclick = function(){
+            window.alert("确认框");
+        }
+        document.getElementById("confirm").onclick = function(){
+            
+            document.getElementById("input").value = window.confirm("确认框")?"确定":"取消";
+        }
+        document.getElementById("prompt").onclick = function(){
+            var text = window.prompt("输入框");
+            document.getElementById("input").value = text==null?"取消输入":text;
+        }
+        document.getElementById("create").onclick = function(){
+            var div = document.createElement("div");
+            div.innerHTML = "创建成功";
+            document.getElementsByTagName("pre")[0].appendChild(div);
+            console.log(div);
+        }
+        var table = "",i=1;
+        while(i<11){
+            table +="<tr><td>"+i+"-1</td><td>"+i+"-2</td></tr>";
+            i++;
+        }
+        document.getElementById("table").innerHTML = table;
+
+        console.log(101*(100/2));
+        i=1,sum=0;
+        do {
+            sum+=i;
+            i++;
+        } while (i<101);
+        document.getElementById("table").innerHTML = sum;
+
+        sum=0,table="";
+        for(i=1;i<10;i++){
+            table+="<tr>";
+            for(var j=0;j<i;j++){
+                table+="<td>"+i+"x"+(j+1)+"="+(i*(j+1))+"</td>";
+            }
+            for(j=i;j<9;j++){
+                table+="<td></td>";
+            }
+            table+="</tr>";
+        }
+        document.getElementById("table").innerHTML = table;
+
+
+
+
+
+
+        var ul = document.getElementById("ul");
+        document.getElementById("button").onclick =function(){
+            console.log(true);
+            var li = ul.getElementsByTagName("li");
+            for(var i=0;i<li.length;i++){
+                if(li[i].className=="active"){
+                    li[i].className="";
+                    if(i+1<li.length){
+                        li[i+1].className="active";
+                    }else{
+                        li[0].className="active";
+                    }
+                    break;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

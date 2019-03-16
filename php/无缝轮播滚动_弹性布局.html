@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>无缝轮播滚动</title>
+    <style>
+        ul{
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        #list{
+            width: 930px;
+            margin: 20px auto;
+            background-color: yellow;
+            position: relative;
+            overflow: hidden;
+        }
+        #list #next,#list #prev{
+            position: absolute;
+            display: inline-block;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        #list #next{
+            right: 0;
+        }
+        #list ul{
+            position: relative;
+            left: 0;
+            display: -webkit-flex;
+            display: flex;
+        }
+        #list ul li{
+            padding:0px 5px;
+            /* min-width: 1px; */
+        }
+        img{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="list">
+        <a href="javascript:void(0);" id="prev">
+            <img src="images/left.png" alt="">
+        </a>
+        <a href="javascript:void(0);" id="next">
+            <img src="images/right.png" alt="">
+        </a>
+        <ul>
+            <li>
+                <img src="images/car-1.jpg" alt="">
+            </li>
+            <li>
+                <img src="images/car-2.jpg" alt="">
+            </li>
+            <li>
+                <img src="images/car-3.jpg" alt="">
+            </li>
+            <li>
+                <img src="images/car-4.jpg" alt="">
+            </li>
+        </ul>
+    </div>
+    <script>
+        window.onload = function () {
+            var objUl = document.querySelector("#list").getElementsByTagName("ul")[0];
+            var objLi = objUl.getElementsByTagName("li");
+            objUl.innerHTML += objUl.innerHTML;
+            var liWid = objLi[0].offsetWidth;
+            var speed = -liWid;
+            objUl.style.width = (liWid * objLi.length)+"px";
+            var time2 = time_name2();
+
+            // 悬停
+            objUl.onmouseover = function () {
+                clearInterval(time2);
+            }
+            // 移开
+            objUl.onmouseout = function () {
+                time2 = time_name2();
+            }
+
+            document.querySelector("#list #prev").onclick = function (e) {
+                speed = -liWid;
+                set_time2();
+            }
+            document.querySelector("#list #next").onclick = function (e) {
+                speed = liWid;
+                set_time2();
+            }
+            function time_name2() {
+                return setInterval(set_time2, 2000)
+            }
+            function set_time2(){
+                var left2 = objUl.offsetLeft + speed;
+                if(speed>0){
+                    if(left2>0){
+                        objUl.style.transition = "";
+                        objUl.style.left = (-objUl.offsetWidth / 2)+"px";
+                        left2 = speed + (-objUl.offsetWidth / 2);
+                    }
+                }else if(left2<-objUl.offsetWidth / 2){
+                    objUl.style.transition = "";
+                    objUl.style.left = "0px";
+                    left2 = speed;
+                }
+                var t22 = setTimeout(() => {
+                    objUl.style.transition = "left 300ms linear 0s";
+                    objUl.style.left = left2+"px";
+                    clearTimeout(t22);
+                }, 10);
+            }
+            //  Safari 3.1 到 6.0 版本代码  过渡事件
+            // objUl.addEventListener("webkitTransitionEnd", myFunction);
+            // // 标准语法
+            // objUl.addEventListener("transitionend", myFunction);
+        }
+    </script>
+</body>
+</html>

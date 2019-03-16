@@ -1,0 +1,388 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jquery笔记</title>
+    <style>
+        h4{
+            margin: 0;
+            text-indent: 2em
+        }
+    </style>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+    <h2>1、渐变</h2>
+    <button id="hidden">隐藏</button>
+    <button id="hidden2">显示</button>
+    <div>
+        <img id="hidden_img" src="images/icon.png" alt="">
+    </div>
+    <script>
+        $("#hidden").click(function(){
+            $("#hidden_img").fadeOut(3000);//渐变隐藏
+        })
+        $("#hidden2").click(function(){
+            $("#hidden_img").fadeIn(3000);//渐变显示
+        })
+    </script>
+
+    <h2>2、滚动条（回到顶部）</h2>
+    <pre>
+        <b>托管平台</b>
+        <a href="http://gitee.com" target="_blank">http://gitee.com 码云（源码托管）</a>
+        <a href="http://coding.net" target="_blank">http://coding.net （源码托管）</a>
+
+        $("").attr();//获取文本的属性 $("").prop();//获取状态的属性
+        //自定义函数  first 第一个  last 最后一个      模拟事件 $("input[type='file']").trigger("click")
+        $(".mdi-top").click(function(){
+            $("html,body").stop().animate({
+                scrollTop: 0
+            }, 500,function(){
+                ;
+            });
+        });
+        <b>获取滚动距离（底部）</b>
+        $(document).scrollTop();
+
+        css 函数
+        margin-top: expression((a.clientHeight-50)/2);
+
+        Live Server  VS Code 在线浏览创建
+
+
+        <a href="https://fontawesome.com" target="_blank">https://fontawesome.com 在线图标引用</a>
+    </pre>
+
+    <h2>3、表单选择符</h2>
+    <div>
+        <input type="checkbox" name="" id="">
+        <input type="checkbox" name="" id="">
+        <input type="checkbox" name="" id="" checked>
+    </div>
+    <pre>
+        console.log($("input:checkbox"));
+        console.log($("input:checkbox:checked"));//被选中
+    </pre>
+    <script>
+        console.log($("input:checkbox"));
+        console.log($("input:checkbox:checked"));//被选中
+    </script>
+
+    <h2>4、遍历数组</h2>
+    <pre>
+        $.each([],function(name,value){
+            ;
+        });
+
+        $(:eq(Number));//标签数组操作（过滤）
+        $("li").eq(Number);//
+
+        $("li").each(function(index){
+            ;
+        });//遍历元素
+    </pre>
+
+    <h2>5、摇头特效</h2>
+    <div id="div" style="width:300px;height:300px;background:red">
+        <a href="http://jqueryui.com">http://jqueryui.com</a>
+    </div>
+    <pre>
+
+    </pre>
+    <script>
+        //悬停
+        $("#div").mouseover(function(){
+            //效果（ shake ） ,动画类型（线性、）, 时间 函数
+            $(this).effect("shake",null,1000);
+        });
+    </script>
+
+    <h2>6、轮播图</h2>
+    <style>
+        .mdi-carousel>ul{
+            position: relative;
+            overflow: hidden;
+            padding-left: 0;
+            display: inline-block;
+        }
+        .mdi-carousel>ul>li{
+            display: none;
+        }
+        .mdi-carousel>ul>li.active{
+            display: block;
+        }
+        .mdi-carousel>ul>li.next{
+            position: absolute;
+            left: 100%;
+            top: 0;
+            display: block;
+        }
+        .mdi-carousel>ul>li.left{
+            transition: all 1000ms linear 0s;
+            transform: translateX(-100%);
+        }
+        .mdi-carousel>ul>li.prev{
+            position: absolute;
+            left: -100%;
+            top: 0;
+            display: block;
+        }
+        .mdi-carousel>ul>li.right{
+            transition: all 1000ms linear 0s;
+            transform: translateX(100%);
+        }
+    </style>
+    <div class="mdi-carousel">
+        <ul>
+            <li class="active" index="0"><img src="images/list-1-1.jpg" alt=""></li>
+            <li class="" index="1"><img src="images/list-1-2.jpg" alt=""></li>
+            <li class="" index="2"><img src="images/list-1-1.jpg" alt=""></li>
+            <li class="" index="3"><img src="images/list-1-2.jpg" alt=""></li>
+        </ul>
+    </div>
+    <div>
+        <button id="left">上一张</button>
+        <button id="right">下一张</button>
+    </div>
+    <script>
+        var t2;
+        function set_time(bool){
+            if(bool==true){
+                clearInterval(t2);
+                return ;
+            }
+            t2= setInterval(() => {
+                set_right();
+            }, 3000);
+        }
+        // set_time();
+        $("#left").click(function(){
+            set_time(true);
+            set_left();
+            var t_left = setTimeout(() => {
+                set_time();
+                clearTimeout(t_left);
+                t_left = null;
+            }, 1000);
+        });
+        $("#right").click(function(){
+            set_time(true);
+            set_right();
+            var t_right = setTimeout(() => {
+                set_time();
+                clearTimeout(t_right);
+                t_right = null;
+            }, 1000);
+        });
+        function set_right(){
+            var item = Number($(".mdi-carousel .active").attr("index"));
+            var next = item + 1;
+            var i = $(".mdi-carousel li").length;
+            if(next>=i){
+                next = 0;
+            }
+            $(".mdi-carousel li:eq("+next+")").toggleClass("next");
+            var t1_right = setTimeout(() => {
+                $(".mdi-carousel li:eq("+item+")").toggleClass("left");
+                $(".mdi-carousel li:eq("+next+")").toggleClass("left");
+                clearTimeout(t1_right);
+            }, 10);
+            
+            var time_right = setTimeout(function(){
+                $(".mdi-carousel li:eq("+item+")").removeClass("active left");
+                $(".mdi-carousel li:eq("+next+")").removeClass("next left active");
+                $(".mdi-carousel li:eq("+next+")").toggleClass("active");
+                clearTimeout(time_right);
+            }, 1000);
+        }
+        function set_left(){
+            var item = Number($(".mdi-carousel .active").attr("index"));
+            var prev = item - 1;
+            var i = $(".mdi-carousel li").length;
+            if(prev<0){
+                prev = i-1;
+            }
+            $(".mdi-carousel li:eq("+prev+")").toggleClass("prev");
+            var t1_left = setTimeout(() => {
+                $(".mdi-carousel li:eq("+item+")").toggleClass("right");
+                $(".mdi-carousel li:eq("+prev+")").toggleClass("right");
+                clearTimeout(t1_left);
+            }, 10);
+            
+            var time_left = setTimeout(function(){
+                $(".mdi-carousel li:eq("+item+")").removeClass("active right");
+                $(".mdi-carousel li:eq("+prev+")").removeClass("prev right active");
+                $(".mdi-carousel li:eq("+prev+")").toggleClass("active");
+                clearTimeout(time_left);
+            }, 1000);
+        }
+    </script>
+
+    <h2>7、属性操作</h2>
+    <pre>
+        $().removeAttr();//删除属性
+        $().attr();//设置/获取属性
+        $().prop();//设置获取原有属性（逻辑属性）
+    </pre>
+
+    <h2>8、添加元素</h2>
+    <pre>
+        $("ul").append("<li>1</li>");
+        $("<li>1</li>").appendTo("ul");
+        $("<li>1</li>").css("color","red").appendTo("ul");
+    </pre>
+
+    <h2>9、插入元素</h2>
+    <pre>
+        $("ul").prepend("<li>1</li>");
+        $("<li>1</li>").prependTo("ul");
+        $("<li>1</li>").css("color","red").prependTo("ul");
+    </pre>
+
+    <h2>10、添加伪元素</h2>
+    <pre>
+        $("ul").before("<b>1</b>");
+        $("ul").after("<b>1</b>");
+    </pre>
+
+    <h2>11、cmd之git操作</h2>
+    <pre>
+        <b>托管平台</b>
+        <a href="http://gitee.com" target="_blank">http://gitee.com 码云（源码托管）</a>
+        <a href="http://coding.net" target="_blank">http://coding.net （源码托管）</a>
+        <a href="https://github.com/">https://github.com/ git （源码托管）</a>
+        <a href="http://www.bootcss.com/p/git-guide/" target="_blank">http://www.bootcss.com/p/git-guide/ 参考地址 git下载</a>
+        cmder  适合在window系统运行的cmd命令工具  <a href="https://cmder.net/">cmder官网</a>
+        [root@Vm ~]#($) root=用户名 VM=主机名 ~=我的文档（当前目录） #=超级用户 $=普通用户
+        clear 清空屏幕内容
+        Ctrl+c 强制中断
+
+        <h4>路径操作</h4>
+        cd / 返回根目录
+        ls  查看目录（包括文件） （dwi系统命令： dir ）
+        ls -l 列表模式查看目录
+        ls -la 查看所有文件
+
+        <h4>目录操作</h4>
+        mkdir test 创建目录 test （md test）
+        rm -rf text 文件目录（r 删除文件不用 f=静默删除，没有确认框 ）  win： rd /s /q test [盘符:\][路径\]  
+        删除文件夹，使用rd或rmdir命令，因为rd只能删除空的文件夹，而如果其中有子文件或子文件夹的时候就会停下来，
+        这时我们加上/s就可以直接删除，但是删除过程中会提示你是否确定删除，对于懒癌患者我们有添加了/q，
+        即quiet，安静模式；所以使用以上命令会完整删除你选中的整个文件夹。
+
+        <h4>文件操作</h4>
+        touch index.hmtl 创建文件  win: type nul> index.html 空文件 echo myname> index.html 内容=maname 的文件 
+        rm -f text (win: del index.html 删除文件)
+
+        <h4>编辑操作</h4>
+        vi style.css  创建并进入编辑文件模式
+        i 开始编辑模式
+        按下Esc 退出编辑模式
+        :wq   保存退出
+
+        <h4>协议错误处理</h4>
+        检查TLS版本 (ssl 错误)
+        git config http.sslVersion
+
+        升级TLS版本 (ssl 错误)  不行下载git新版本
+        git config --global http.sslVersion tlsv1.2
+
+        <h4>1、设置用户</h4>
+        <a href="http://progit.bootcss.com">http://progit.bootcss.com git使用参考</a>
+        git config --global user.name 'name'  设置名字
+        git config --global user.email '@qq.com'  设置邮箱
+        git config user.name   查看名字
+        git config user.email  查看邮箱
+
+        <h4>2、设置SSH key</h4>
+        登录github。打开setting->SSH keys，点击右上角 New SSH key，把生成好的公钥id_rsa.pub放进 key输入框中，再为当前的key起一个title来区分每个key。
+        ssh-keygen -t rsa -C '' 创建SSH Key
+
+        <h4>3、设置地址</h4>
+        在本地仓库中建立一个与远程仓库的别名，以便之后提交代码而不是每次都要输入远程仓库地址。指令结尾是git的仓库地址，我使用的是SSH连接方式
+        git remote add origin https://github.com/a187765/php.git  git@github.com:a187765/php.git  origin = 运程的仓库名
+        git remote add php https://github.com/a187765/php.git
+        git remote rm origin  删除git的服务器地址
+        git remote -v  查看git的服务器地址
+
+        <h4>4、初始化</h4>
+        git init  初始化 会在当前目录创建 .git 目录（lin下的隐藏文件）
+            git:(master) 主分支 【提示】
+
+        <h4>5、 加入文件到项目</h4>
+        git add .  加入文件到项目 . = 文件名 （单个.代表当前目录下的所有文件）
+
+        <h4>6、 提交项目到本地仓库</h4>
+        git commit 进入编辑状态
+        git commit -m "第二次提交" 提交文件并且有版本信息 送到 缓存区
+
+        <h4>7、 查看管理状态</h4>
+        git status 查看管理状态（有哪些文件在项目下【.git目录下】） u = 未跟踪 A = 已跟踪 M = 修改过
+
+        git reflog 查看版本变化
+        git log 查看提交日志  q 退出
+
+        <h4>8、 推送到云仓库</h4>
+        git push <远程主机名> <本地分支名>:<远程分支名>
+        git push -u origin master 把代码放到云仓库放在主分支上 origin = 运程的仓库名
+                 -f 强推   rejected（拒收错误）
+
+        <h4>9、 获取仓库项目到本地</h4>
+        cat index.html 查看文件的内容
+        git fetch 更新文件（不会覆盖）
+        git merge 会覆盖
+        git pull origin master 获取文件到本地分支（更新，一般用这个）
+        git clone https://github.com/a187765/php.git 克隆到本地
+        git clone /path/to/repository 克隆（下载）项目(插件、开源源码) 网站加前缀： username@host:
+    </pre>
+
+    <h2>12、Vsc操作git</h2>
+    <pre>
+        搜索 git 安装git插件
+
+        点击 + 号 
+        点击 对 发送到缓存区 底部输入框输入版本信息，更新说明
+
+        点击 push 送到云区
+
+        点击 pull 更新
+    </pre>
+
+    <h2>13、 cmder 配置</h2>
+    <pre>
+        配置环境变量
+        为什么要进行环境配置
+        目的：为了可以在任意打开文件夹，鼠标右击弹出的菜单中包含Cmder Here选项
+        1、配置环境变量：环境变量 –> 系统变量 （把cmder的bin目录路径添加到环境变量）
+        2、运行cmder，命令行输入 Cmder.exe /REGISTER ALL
+        
+            Cmder.exe /REGISTER ALL
+        
+        cmder alias ( 修改别名,两种方法。)
+        1. 直接在cmder脚本中输入：alias cd=cd $1 & ls
+        2. 打开C:\cmder\config\user-aliases.cmd，添加一行：cd=cd $1 & ls
+        下面是我常用的一些别名：
+        
+            cd=cd $1 & ls
+                ..=cd .. & ls
+                ...=cd ..\.. & ls
+                ls=ls --show-control-chars -F --color
+                ll=ls -l
+                gitst=git status
+                cal = python -c "from math import *; print($1)"
+        
+        
+            
+        显示中文乱码
+        如果当前目录下存在中文文件，ls 会显示乱码，解决的方法也简单，就是：按win+alt+p 打开设置，在 startup -> environment 中输入：
+        
+        set LANG=zh_CN.UTF-8
+            
+        中文是 启动 -> 环境 中输入：
+        set LANG=zh_CN.UTF-8
+    </pre>
+</body>
+</html>

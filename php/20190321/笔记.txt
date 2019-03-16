@@ -1,0 +1,35 @@
+php文件
+	可以是一个PHP文件
+	也可以是HTML代码里面嵌套PHP代码
+	如果你的整个文件都是PHP代码。那么你的结束标记可以没有
+
+
+PHP中文出现乱码要设置头信息  header();
+header('content-type:text/html; charset=utf-8');
+
+php  必须要有结束分号;
+
+花括号在PHP里面是变量的边界符{ }
+
+
+不管是HTML  css  js对于PHP来说。它只是一个字符串
+
+
+在编程语言里面的套路
+unset   unlink()
+	un  删除  清除  释放  把有的变没有
+	
+is_int();
+	is  判断类型
+get  获取的意思
+set  设置的意思
+
+
+
+
+
+
+
+
+
+
